@@ -1,8 +1,9 @@
 import os
 import subprocess
 import shutil
+import UtilityVars as Utils
 
-TASK_GRADES = ['P', 'C', 'D', 'H']
+
 _sorted_pdfs = []
 _task_idx    = 0
 
@@ -23,7 +24,7 @@ def __GetTaskNum(file_name):
     num_str = ""
     num = -1
     for e in file_name:
-        if any(e==g for g in TASK_GRADES):
+        if any(e==g for g in Utils.TASK_GRADES):
             break
         num_str += e
     try:

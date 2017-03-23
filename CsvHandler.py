@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 import csv
+import os.path
+import UtilityVars as Utils
+
+_save_mode = 'append'
 
 _csv_data_in = []
 _csv_data_out = []
@@ -65,15 +69,26 @@ def UpdateCsv(stu_num, task_num, new_status, new_comment):
     #remove from _csv_data_in
     del _csv_data_in[idx]
 
-def Save(path_marked, path_to_mark):
-    path_marked += "\\marks.csv"
-    path_to_mark += "\\marks.csv"
-    with open(path_marked, 'w', newline="\n") as csvFile:
+def SetSaveMode(mode):
+    global _save_mode
+    _save_mode = mode
+
+def StartNewFile():
+    with open(Utils.GetSavePath(), 'w', newline="\n") as csvFile:
         csvWriter = csv.writer(csvFile, delimiter=",")
-        for row in _csv_data_out:
-            csvWriter.writerow(row)
-            
-    with open(path_to_mark, 'w', newline="\n") as csvFile:
+        csvWriter.writerow(Utils._csv_header)
+
+def Save():
+#    path_marked = Utils.f_marked + Utils._f_name_marked
+#    path_to_mark = Utils.f_to_marked + Utils._f_name_to_mark
+    
+    
+    with open(Utils.GetSavePath(), 'a', newline="\n") as csvFile:
+        csvWriter = csv.writer(csvFile, delimiter=",")
+        #for row in _csv_data_out:
+        csvWriter.writerow(_csv_data_out[len(_csv_data_out)-1])
+    to_mark_pth = Utils.f_to_mark + Utils._f_name_to_mark;
+    with open(to_mark_pth, 'w', newline="\n") as csvFile:
         csvWriter = csv.writer(csvFile, delimiter=",")
         for row in _csv_data_in:
             csvWriter.writerow(row)
